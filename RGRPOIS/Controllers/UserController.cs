@@ -3,7 +3,7 @@ using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Mocassini.Models.DTO;
+using RGRPOIS.Models.DTO;
 using RGRPOIS.Helpers;
 using RGRPOIS.Helpers.Auth;
 using RGRPOIS.Helpers.Helpers;
@@ -77,6 +77,29 @@ public class UserController : Controller
 
         _dbContext.SaveChanges();
         return user.Entity;
+    }
+
+    [HttpDelete("{id}", Name = "DeleteUser")]
+    [Authorization.Authorize(Role.Salesman)]
+    public void Delete(int id)
+    {
+        var user = _dbContext.Users.Find(id);
+        _dbContext.Users.Remove(user);
+        _dbContext.SaveChanges();
+    }
+
+    [HttpPost("authenticate", Name = "Authenticate")]
+    [AllowAnonymous]
+    public AuthenticateResponse Authenticate(
+        [FromBody] AuthenticateRequest req
+    )
+    {
+        var response = _userService.Authenticate(req);
+
+        // log response
+        _logger.LogInformation("User {Username} authenticated, {response}", req.Username, response.Token);
+
+        return response;
     }
 
 }

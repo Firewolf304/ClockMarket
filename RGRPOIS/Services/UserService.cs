@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using Mocassini.Models.DTO;
+using RGRPOIS.Models.DTO;
 using RGRPOIS.Helpers.Auth;
 using RGRPOIS.Helpers;
 using RGRPOIS.Helpers.Models;

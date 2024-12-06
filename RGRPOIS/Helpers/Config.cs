@@ -2,5 +2,5 @@
 
 public class Config
 {
-    public string Secret { get; set; } = "secret123_secret123";
+    public string Secret { get; set; } = "secretpassworsecretpassworsecretpassworsecretpassworsecretpassworsecretpassworsecretpassworsecretpassworsecretpassworsecretpasswor12";
 }

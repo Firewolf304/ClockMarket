@@ -1,4 +1,4 @@
-namespace Mocassini.Models.DTO;
+namespace RGRPOIS.Models.DTO;
 
 public class CreateUserRequest
 {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Mocassini.Models.DTO;
+namespace RGRPOIS.Models.DTO;
 
 public class AuthenticateRequest
 {
