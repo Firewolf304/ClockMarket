@@ -1,0 +1,91 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9fbfd;
+    color: #333; /* Тёмный текст для контраста */
+}
+
+.navbar {
+    background-color: #ffffff; /* Белый фон навигации */
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Лёгкая тень для объёма */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px; /* Закруглённые края */
+}
+
+#mainpage {
+    color: #004080; /* Темно-синий текст */
+    margin: 0;
+    cursor: pointer;
+    font-size: 2rem; /* Увеличенный размер шрифта */
+    font-weight: 600;
+}
+
+.nav-button {
+    background-color: #0073e6; /* Синий цвет кнопок */
+    color: #ffffff; /* Белый текст */
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 25px; /* Полукруглые кнопки */
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Тень для кнопок */
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.nav-button:hover {
+    background-color: #005bb5; /* Темнее при наведении */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Усиленная тень при наведении */
+}
+
+#auth-button, #logout-button {
+    background-color: #ff8533; /* Более мягкий оранжевый */
+}
+
+#auth-button:hover, #logout-button:hover {
+    background-color: #e67300; /* Темнее при наведении */
+}
+
+.hidden {
+    display: none;
+}
+
+.center-content {
+    padding: 30px;
+    text-align: center;
+    border-radius: 15px; /* Закруглённые края контейнера */
+    background-color: #ffffff; /* Белый фон для контента */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень для объёма */
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Отступы между именем и ролью */
+    margin-right: 20px; /* Отступ справа от кнопок */
+    font-size: 1rem;
+    color: #333; /* Тёмный текст */
+}
+
+.user-name {
+    font-weight: bold;
+    color: #004080; /* Темно-синий */
+}
+
+.user-role {
+    background-color: #f0f4f8; /* Светло-серый фон */
+    color: #0073e6; /* Синий текст */
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    border-radius: 15px; /* Закруглённая окантовка */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
+    font-weight: 600;
+}

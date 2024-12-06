@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="ru">
+<head>
+    <title>Login</title>
+    <!--link rel="stylesheet" type="text/css" href="/login/style.css"-->
+</head>
+<body>
+    <div id="app">
+        <my-component></my-component>
+    </div>
+
+    <div class="container">
+        <div id="id">ID: </div>
+        <div id="hostname">
+        </div>
+        <h1>Login</h1>
+        <div id="status"></div>
+        <form id="login_event">
+            <div>
+                <label type="login">Login:</label>
+                <input type="text" placeholder="Enter login" name="login" id="login" >
+                <em></em>
+            </div>
+            <div>
+                <label type='password'>Password:</label>
+                <input type="password" placeholder="Enter password" name="password" id="password" >
+                <em></em>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <label>No account? Register: </label>
+            <button id="register-button">Click</button>
+    </div>
+    
+    <script type="application/javascript" src="/staticfront/vue/vue.js"></script>
+    <!--script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script-->
+    <script type="application/javascript" src="/staticfront/vue/static-templates/login-form.js"></script>
+    
+</body>
+<script src="/login/request.js"></script>
+</html>
