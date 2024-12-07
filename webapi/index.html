@@ -5,18 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Магазин сетевого оборудования</title>
     <link href="/style.css" rel="stylesheet">    
-    <link href="/slider.css" rel="stylesheet">  
+    <!--link href="/slider.css" rel="stylesheet"-->  
     <script type="application/javascript" src="/staticfront/vue/vue.js"></script>
     <script type="application/javascript" src="/staticfront/vue/static-templates/main.js"></script>
-    <script type="application/javascript" src="/staticfront/vue/static-templates/just-check-auth.js"></script>
     <script type="application/javascript" src="/staticfront/vue/static-templates/navbar.js"></script>
-    
+    <script type="application/javascript" src="/staticfront/vue/static-templates/just-check-auth.js"></script>
+    <!--script type="application/javascript" src="/staticfront/vue/static-templates/main-page-select.js"></script-->
 </head>
 <body>
     <div id="navbar"></div>  
-    
-    
     <div id="app"></div>
+
+    <div id="electronics-container">
+        <div class="filter-section">
+            <h3>Фильтры</h3>
+            <form id="productFilterForm">
+                <label for="filterName">Название:</label>
+                <input type="text" id="filterName" name="Name">
+                
+                <label for="filterBrand">Бренд:</label>
+                <select id="filterBrand" name="BrandId">
+                    <option value="">Все бренды</option>
+                </select>
+
+                <label for="filterMinPrice">Мин. цена:</label>
+                <input type="number" id="filterMinPrice" name="MinPrice" placeholder="0">
+
+                <label for="filterMaxPrice">Макс. цена:</label>
+                <input type="number" id="filterMaxPrice" name="MaxPrice" placeholder="9999999">
+
+                <label for="filterCount">Кол-во на странице:</label>
+                <input type="number" id="filterCount" name="Count" value="5" min="1">
+
+                <label for="filterPage">Страница:</label>
+                <input type="number" id="filterPage" name="Offset" value="0" min="0">
+
+                <button type="submit">Применить</button>
+            </form>
+        </div>
+        <div id="productModal" class="modal">
+            <div class="modal-content">
+                <button class="modal-close" id="closeModal">Закрыть</button>
+                <img id="modalImage" src="" alt="Product Image">
+                <h2 id="modalTitle">Название товара</h2>
+                <p id="modalDescription">Описание товара</p>
+                <p id="modalPrice">Цена: </p>
+            </div>
+        </div>
+        <div class="products-section">
+            <h2>Список товаров</h2>
+            <div id="productsList" class="products-list">
+                <!-- Продукты будут добавляться сюда -->
+            </div>
+        </div>
+    </div>
     
     <div id="about"></div>
     <script type="application/javascript" src="/main.js"></script>

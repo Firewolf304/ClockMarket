@@ -7,8 +7,11 @@ public class ModelEntity
     [Key] public int Id { get; set; }
 
     [Required]
-    public int ShoeId { get; set; }
+    public int ProductId { get; set; }
     public ProductEntity? Product { get; set; } = null!;
+
+    [Required]
+    public string Model { get; set; } = "";
 
     [Required]
     public int Quantity { get; set; } = 0;
