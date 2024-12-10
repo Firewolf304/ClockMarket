@@ -21,6 +21,7 @@ public class ProductController : Controller
         _dbContext = dbContext;
     }
 
+    [Authorization.Authorize(Role.Salesman)]
     [HttpPost(Name = "CreateProduct")]
     public ProductEntity Create([FromBody] CreateProductRequest req )
     {
@@ -30,7 +31,7 @@ public class ProductController : Controller
             Description = req.Description,
             BrandId = req.BrandId,
             Price = req.Price,
-            Barcode = req.Barcode,
+            Barcode = req.Barcode
         };
         
         product.Models = req.Models.Select(
@@ -66,7 +67,7 @@ public class ProductController : Controller
 
 
 
-    [HttpGet(Name = "GetProduct")]
+    [HttpGet(Name = "GetProducts")]
     public ProductFilterResponse Get([FromQuery] ProductFilterRequest? filters)
     {
         filters ??= new ProductFilterRequest();
@@ -120,4 +121,53 @@ public class ProductController : Controller
 
         return res;
     }
+
+    [HttpGet("{id}", Name = "GetProduct")]
+    public ProductEntity Get(int id)
+    {
+        return _dbContext.Products
+            .Select(c => new ProductEntity
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Description = c.Description,
+                BrandId = c.BrandId,
+                Price = c.Price,
+                Barcode = c.Barcode,
+                ImagesURLs = c.ImagesURLs,
+
+                Brand = new BrandEntity
+                {
+                    Id = c.Brand.Id,
+                    Name = c.Brand.Name,
+                    Description = c.Brand.Description,
+                    ExternalLogoId = c.Brand.ExternalLogoId,
+                },
+
+                Models = c.Models.Select(
+                        ss => new ModelEntity
+                        {
+                            Id = ss.Id,
+                            ProductId = ss.ProductId,
+                            Model = ss.Model,
+                            Quantity = ss.Quantity
+                        }
+                    ).ToList(),
+            }
+            )
+            .First(c => c.Id == id);
+    }
+
+    [Authorization.Authorize(Role.Salesman)]
+    [HttpDelete("{id}", Name = "DeleteProduct")]
+    public void Delete(int id)
+    {
+        var prod = _dbContext.Products.Find(id);
+        if (prod != null)
+        {
+            _dbContext.Products.Remove(prod);
+        }
+        _dbContext.SaveChanges();
+    }
+
 }

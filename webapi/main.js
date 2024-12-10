@@ -1,12 +1,37 @@
+var token = "";
+window.adminStatus = false;
+function deleteItem(button) {
+    const productId = $(button).data('id'); // Получаем ID продукта
+    
+    // Отправляем асинхронный запрос DELETE
+    fetch(`/Product/${productId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`
+          }
+    })
+    .then(response => {
+        if (response.ok) {
+            $(button).closest('.product-card').remove();
+            alert("Продукт успешно удален!");
+        } else {
+            alert("Ошибка при удалении продукта. Попробуйте еще раз.");
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+        alert("Произошла ошибка. Попробуйте еще раз.");
+    });
+}
 window.addEventListener("load", ()=> {
-
+    token = $.cookie("token");
     const filter = {
         Count : $.cookie("filterCount")
     };
     var products = {};
     var undefined = '/staticfront/jpg/undefined.jpg';
-
-
+    var ItemMaxCount = 20;
+    if($.cookie("role") == "Salesman") window.adminStatus = true;
     $("#filterCount").val($.cookie("filterCount"))
     var fetchBrands = () => {
         $.get("/Brand", function (brands) {
@@ -18,21 +43,30 @@ window.addEventListener("load", ()=> {
             });
         });
     }
+    
     var updateModal = () => {
-        $(".product-card").on("click", function () {
-            const productId = $(this).data("id");
+        $(".product-card h3").on("click", function () {
+            const productId = $(this).parent().data("id");
             const product = products.find(p => p.id === productId);
-            $(".modal").css("display", "none");
             $("#modalImage").attr("src", product.imagesURLs[0] || undefined);
             $("#modalTitle").text(product.name);
             $("#modalDescription").text(product.description);
             $("#modalPrice").text(`Цена: ${product.price} руб.`);
-            $(".modal").css("display", "flex");
+            const modelsList = $("#modalModels");
+            modelsList.empty();
+            if (product.models && product.models.length > 0) {
+                product.models.forEach(model => {
+                    modelsList.append(`<li>${model.model} => ${model.quantity}</li>`);
+                });
+            } else {
+                modelsList.append(`<li>Модели не указаны</li>`);
+            }
             $("#productModal").fadeIn();
+            $("#productModal .modal").css("display", "flex");
         });
     
         $("#closeModal").on("click", function () {
-            $(".modal").css("display", "none");
+            $("#productModal .modal").css("display", "none");
             $("#productModal").fadeOut();
         });
     }
@@ -56,6 +90,10 @@ window.addEventListener("load", ()=> {
                 fetchProducts();
             }
             products = response["products"];
+            function  deleteItem (element) {
+                console.log($(element))
+                //$.delete(`/Product/${}`)
+            };
             products.forEach(product => {
                 const productItem = $(`
                     <div class="product-card" data-id="${product.id}">
@@ -64,13 +102,16 @@ window.addEventListener("load", ()=> {
                         <p>Бренд: ${product.brand.name}</p>
                         <p>Цена: ${product.price}</p>
                         <button data-id="${product.id}">Добавить в корзину</button>
+                        ` +
+                        ((window.adminStatus) ? `<div class="delete"><button data-id="${product.id}" onclick="deleteItem(this)">Удалить</button></div>` : "")
+                        +  `
                     </div>
                 `);
                 productList.append(productItem);
             });
             $("#filterPage").attr("max", response.totalPages)
-            $("#filterCount").attr("max", response.totalItems)
-            
+            if(response.totalItems < ItemMaxCount) $("#filterCount").attr("max", response.totalItems)
+            else $("#filterCount").attr("max", ItemMaxCount)
             
             // update
             updateModal();

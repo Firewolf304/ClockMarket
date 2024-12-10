@@ -98,6 +98,18 @@ body {
     margin-bottom: 10px;
 }
 
+.product-card .delete button {
+    padding: 10px;
+    background-color: #af4c4c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-card .delete button:hover {
+    background-color: #a04545;
+}
 .product-card button {
     padding: 10px;
     background-color: #4CAF50;
@@ -106,6 +118,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
+
 
 .product-card button:hover {
     background-color: #45a049;
@@ -161,4 +174,29 @@ body {
 
 .modal-close:hover {
     background-color: #ff4500;
+}
+
+.modal-models {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    font-size: 14px;
+    color: #555;
+}
+.modal-models li {
+    margin: 5px 0;
+}
+
+.create-product-button {
+    position: fixed;
+    top: 70px; /* Расположение под navbar */
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
 }
