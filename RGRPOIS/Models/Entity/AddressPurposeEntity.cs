@@ -1,5 +1,8 @@
-﻿namespace RGRPOIS.Helpers.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace RGRPOIS.Helpers.Models;
+
+[Table("Addresses")]
 public class AddressPurposeEntity
 {
     public string CountryCode { get; set; } = null!;

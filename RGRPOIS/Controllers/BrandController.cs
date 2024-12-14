@@ -6,7 +6,7 @@ using RGRPOIS.Helpers.Models;
 using RGRPOIS.Models.DTO;
 using System.ComponentModel.DataAnnotations;
 
-namespace RGRPOIS.Controllers;
+namespace RGRPOIS.Helpers.Controllers;
 
 [ApiController]
 [Route("[controller]")]

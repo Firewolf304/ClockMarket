@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RGRPOIS.Helpers.Models;
 
+[Table("Models")]
 public class ModelEntity
 {
     [Key] public int Id { get; set; }

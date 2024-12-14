@@ -1,4 +1,5 @@
 ﻿using RGRPOIS.Helpers.Models;
+using RGRPOIS.Helpers.Utils;
 
 namespace RGRPOIS.Models.DTO;
 
@@ -11,5 +12,6 @@ public class CreateProductRequest
     public int Price { get; set; }
 
     // model to quantity mapping
+    [AtLeastOneElementDict]
     public Dictionary<string, int> Models { get; set; } = null!;
 }
