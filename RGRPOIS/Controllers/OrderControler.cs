@@ -58,4 +58,49 @@ public class OrderControler : Controller
         _dbContext.Orders.Add(order);
         _dbContext.SaveChanges();
     }
+    [HttpGet(Name = "GetMyOrders")]
+    public IEnumerable<OrderEntity> GetMyOrders()
+    {
+        var user = (UserEntity)HttpContext.Items["User"];
+        return _dbContext.Orders.Where(o => o.UserId == user.Id).Select(
+            o => new OrderEntity
+            {
+                Id = o.Id,
+                Address = o.Address,
+                Status = o.Status,
+                Comment = o.Comment,
+                TrackingNumber = o.TrackingNumber,
+                CreatedAt = o.CreatedAt,
+                Items = o.Items.Select(
+                    i => new OrderItemEntity
+                    {
+                        Id = i.Id,
+                        Quantity = i.Quantity,
+                        Model = new ModelEntity
+                        {
+                            Id = i.Model.Id,
+                            Model = i.Model.Model,
+                            Product = new ProductEntity
+                            {
+                                Id = i.Model.Product.Id,
+                                Name = i.Model.Product.Name,
+                                Brand = new BrandEntity
+                                {
+                                    Id = i.Model.Product.Brand.Id,
+                                    Name = i.Model.Product.Brand.Name,
+                                    Description = i.Model.Product.Brand.Description,
+                                    ExternalLogoId = i.Model.Product.Brand.ExternalLogoId
+                                },
+                                Description = i.Model.Product.Description,
+                                Price = i.Model.Product.Price,
+                                ImagesURLs = i.Model.Product.ImagesURLs
+                            }
+                        }
+                    }
+                )
+            }
+        ).OrderByDescending(
+            o => o.CreatedAt
+        );
+    }
 }
