@@ -1,28 +1,36 @@
 window.addEventListener("load", ()=> {
     $(document).ready(function () {
-        if(!window.adminStatus) $("#createProductButton").addClass("hidden")
-        const $createProductButton = $("#createProductButton");
-        const $createProductModal = $("#productCreateModal");
-        const $closeCreateModal = $("#closeCreateModal");
-        const $createProductForm = $("#createProductForm");
-    
-        // Открытие модального окна
-        $createProductButton.on("click", function () {
-            $createProductModal.fadeIn();
-            $("#productCreateModal .modal").css("display", "flex");
+        if(!window.adminStatus) $("#openModalButton").addClass("hidden")
+        const $createModal = $("#createModal");
+        const $productTab = $("#productTab");
+        const $brandTab = $("#brandTab");
+        const $productFormContainer = $("#productFormContainer");
+        const $brandFormContainer = $("#brandFormContainer");
+
+        $("#openModalButton").on("click", function () {
+            $createModal.fadeIn();
         });
-    
-        // Закрытие модального окна
-        $closeCreateModal.on("click", function () {
-            $createProductModal.fadeOut();
-            $("#productCreateModal .modal").css("display", "none");
+
+        $("#closeModal").on("click", function () {
+            $createModal.fadeOut();
         });
-    
-        // Отправка формы
-        $createProductForm.on("submit", function (e) {
+
+        $productTab.on("click", function () {
+            $productFormContainer.removeClass("hidden");
+            $brandFormContainer.addClass("hidden");
+            $productTab.addClass("active-tab");
+            $brandTab.removeClass("active-tab");
+        });
+
+        $brandTab.on("click", function () {
+            $brandFormContainer.removeClass("hidden");
+            $productFormContainer.addClass("hidden");
+            $brandTab.addClass("active-tab");
+            $productTab.removeClass("active-tab");
+        });
+
+        $("#createProductForm").on("submit", function (e) {
             e.preventDefault();
-    
-            // Сбор данных из формы
             const productData = {
                 name: $("#productName").val(),
                 description: $("#productDescription").val(),
@@ -31,24 +39,51 @@ window.addEventListener("load", ()=> {
                 price: parseFloat($("#productPrice").val()),
                 models: JSON.parse($("#productModels").val() || "{}")
             };
-    
-            // Отправка POST-запроса
+
             $.ajax({
                 url: "/Product",
                 method: "POST",
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 },
-                contentType: "application/json",
                 data: JSON.stringify(productData),
                 success: function () {
                     alert("Товар успешно создан!");
-                    $createProductModal.fadeOut();
-                    $createProductForm[0].reset();
+                    $("#createProductForm")[0].reset();
+                    $createModal.fadeOut();
                 },
                 error: function (xhr) {
                     console.error("Ошибка:", xhr.responseText);
-                    alert("Не удалось создать товар. Проверьте данные.");
+                    alert("Не удалось создать товар.");
+                }
+            });
+        });
+
+        $("#createBrandForm").on("submit", function (e) {
+            e.preventDefault();
+            const brandData = {
+                name: $("#brandName").val(),
+                description: $("#brandDescription").val(),
+                externalLogoId: $("#brandExternalLogoID").val()
+            };
+
+            $.ajax({
+                url: "/Brand",
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                data: JSON.stringify(brandData),
+                success: function () {
+                    alert("Бренд успешно создан!");
+                    $("#createBrandForm")[0].reset();
+                    $createModal.fadeOut();
+                },
+                error: function (xhr) {
+                    console.error("Ошибка:", xhr.responseText);
+                    alert("Не удалось создать бренд.");
                 }
             });
         });

@@ -1,0 +1,66 @@
+#purchaseModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    background-color: white;
+    color: black;
+    padding: 20px;
+    display: none;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+#purchaseModal input, #purchaseModal textarea {
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+#purchaseModal button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#purchaseModal button:hover {
+    background-color: #45a049;
+}
+
+#productList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 45%; /* Adjust as needed */
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.product-item h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.product-item select,
+.product-item input {
+    width: auto;
+    padding: 5px;
+    margin: 0;
+}

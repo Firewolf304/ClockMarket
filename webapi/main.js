@@ -1,14 +1,15 @@
 var token = "";
 window.adminStatus = false;
+var selectedProducts = new Set();
 function deleteItem(button) {
     const productId = $(button).data('id'); // Получаем ID продукта
     
-    // Отправляем асинхронный запрос DELETE
+    // DELETE THIS SHIT
     fetch(`/Product/${productId}`, {
         method: 'DELETE',
         headers: {
             'Authorization': `Bearer ${token}`
-          }
+        }
     })
     .then(response => {
         if (response.ok) {
@@ -62,11 +63,11 @@ window.addEventListener("load", ()=> {
                 modelsList.append(`<li>Модели не указаны</li>`);
             }
             $("#productModal").fadeIn();
-            $("#productModal .modal").css("display", "flex");
+            $("#productModal").css("display", "flex");
         });
     
-        $("#closeModal").on("click", function () {
-            $("#productModal .modal").css("display", "none");
+        $("#productModal button#closeModal").on("click", function () {
+            $("#productModal").css("display", "none");
             $("#productModal").fadeOut();
         });
     }
@@ -94,6 +95,42 @@ window.addEventListener("load", ()=> {
                 console.log($(element))
                 //$.delete(`/Product/${}`)
             };
+
+            // ============= checkbox logic
+            selectedProducts = new Set();
+
+            function updateCartButtonState() {
+                if (selectedProducts.size > 0) {
+                    $("#addToCartButton").removeClass("disabled").prop("disabled", false);
+                } else {
+                    $("#addToCartButton").addClass("disabled").prop("disabled", true);
+                }
+            }
+
+            $("body").on("change", "input.product-checkbox", function () {
+                const productId = $(this).attr("data-id");
+                if (this.checked) {
+                    selectedProducts.add(productId);
+                } else {
+                    selectedProducts.delete(productId);
+                }
+                updateCartButtonState();
+            });
+            $("#addToCartButton").off();
+            $("#addToCartButton").on("click", function () {
+                if (selectedProducts.size > 0) {
+                    //alert(`Добавлено в корзину: ${Array.from(selectedProducts).join(", ")}`);
+                    
+                    loadProducts();
+                    $("#purchaseModal").fadeIn();
+
+                    /*selectedProducts.clear();
+                    $("input.product-checkbox").prop("checked", false);
+                    updateCartButtonState();*/
+                }
+            });
+            // ============= checkbox logic
+
             products.forEach(product => {
                 const productItem = $(`
                     <div class="product-card" data-id="${product.id}">
@@ -101,7 +138,7 @@ window.addEventListener("load", ()=> {
                         <h3>${product.name}</h3>
                         <p>Бренд: ${product.brand.name}</p>
                         <p>Цена: ${product.price}</p>
-                        <button data-id="${product.id}">Добавить в корзину</button>
+                        <input type="checkbox" class="product-checkbox" data-id="${product.id}" />
                         ` +
                         ((window.adminStatus) ? `<div class="delete"><button data-id="${product.id}" onclick="deleteItem(this)">Удалить</button></div>` : "")
                         +  `
@@ -109,6 +146,8 @@ window.addEventListener("load", ()=> {
                 `);
                 productList.append(productItem);
             });
+            selectedProducts.clear();
+            
             $("#filterPage").attr("max", response.totalPages)
             if(response.totalItems < ItemMaxCount) $("#filterCount").attr("max", response.totalItems)
             else $("#filterCount").attr("max", ItemMaxCount)
@@ -141,6 +180,88 @@ window.addEventListener("load", ()=> {
         }
         fetchProducts();
     });
+    $("#submitPurchase").on("click", function() {
+        const selectedProducts = [];
+        $(".product-select").each(function() {
+            const productId = $(this).data("product-id");
+            const modelId = $(this).val();
+            const quantity = $(this).data("quantity");
+            if (modelId) {
+                selectedProducts.push({
+                    modelID: modelId,
+                    quantity: quantity
+                });
+            }
+        });
+
+        const data = {
+            items: selectedProducts,
+            address: {
+                countryCode: $("#countryCode").val(),
+                state: $("#state").val(),
+                city: $("#city").val(),
+                street: $("#street").val(),
+                building: $("#building").val(),
+                apartment: $("#apartment").val(),
+                zipCode: $("#zipCode").val()
+            },
+            comment: $("#comment").val()
+        };
+
+        $.ajax({
+            url: "/OrderContoller",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function(response) {
+                alert("Заказ оформлен успешно!");
+                $("#purchaseModal").hide();
+            },
+            error: function() {
+                alert("Ошибка при оформлении заказа");
+            }
+        });
+    });
+    function loadProducts() {
+        const selectedProductIds = Array.from(selectedProducts);
+        var generate = (productData) => {
+            const productId = productData.id;
+            const productModels = productData.models || [];
+    
+            let modelsOptions = productModels.map(model => {
+                return `<option value="${model.id}">${model.model}</option>`;
+            }).join("");
+    
+            return `
+                <div class="product-item" data-product-id="${productId}">
+                    <h3>${productData.name}</h3>
+                    <label>Модель:</label>
+                    <select class="product-select" data-product-id="${productId}">
+                        ${modelsOptions}
+                    </select>
+                    <label>Количество:</label>
+                    <input type="number" value="1" class="product-quantity" data-quantity="1" min="1">
+                </div>
+            `;
+        };
+        $("#productList").empty()
+        const promises = selectedProductIds.map(id => {
+            return $.ajax({
+                url: `/Product/${id}`,
+                method: "GET",
+                success: function(productData) {
+                    // add products
+                    const productListHtml = generate(productData);
+                    $("#productList").append(productListHtml);
+                }
+            });
+        });
+
+    }
+    $("#purchaseModal #closeModal").on("click", function() {
+        $("#purchaseModal").fadeOut();
+    });
+    
 
     // init
     fetchBrands();

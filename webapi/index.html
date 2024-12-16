@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Магазин сетевого оборудования</title>
     <link href="/style.css" rel="stylesheet">    
+    <link href="/modal.css" rel="stylesheet">  
+    <link href="/order-style.css" rel="stylesheet">  
     <!--link href="/slider.css" rel="stylesheet"-->  
     <script type="application/javascript" src="/staticfront/vue/vue.js"></script>
     <script type="application/javascript" src="/staticfront/vue/static-templates/main.js"></script>
@@ -16,38 +18,63 @@
     <div id="navbar"></div>  
     <div id="app"></div>
 
-    <button id="createProductButton" class="create-product-button">Создать товар</button>
-    <div id="productCreateModal" class="modal">
+    <button id="openModalButton" class="open-modal-button">Открыть окно</button>
+    
+    <div id="createModal" class="modal">
         <div class="modal-content">
-            <button class="modal-close" id="closeCreateModal">Закрыть</button>
-            <h2>Создать новый товар</h2>
-            <form id="createProductForm">
-                <div>
-                    <label for="productName">Название:</label>
-                    <input type="text" id="productName" name="name" required>
-                </div>
-                <div>
-                    <label for="productDescription">Описание:</label>
-                    <textarea id="productDescription" name="description" required></textarea>
-                </div>
-                <div>
-                    <label for="productBarcode">Штрихкод:</label>
-                    <input type="text" id="productBarcode" name="barcode" required>
-                </div>
-                <div>
-                    <label for="productBrand">ID Бренда:</label>
-                    <input type="number" id="productBrand" name="brandId" required>
-                </div>
-                <div>
-                    <label for="productPrice">Цена:</label>
-                    <input type="number" id="productPrice" name="price" required>
-                </div>
-                <div>
-                    <label for="productModels">Модели (JSON):</label>
-                    <textarea id="productModels" name="models" placeholder='{"model1": 0, "model2": 0}'></textarea>
-                </div>
-                <button type="submit">Создать</button>
-            </form>
+            <button class="modal-close" id="closeModal">Закрыть</button>
+            <div class="tabs">
+                <button class="tab" id="productTab">Создать товар</button>
+                <button class="tab" id="brandTab">Создать бренд</button>
+            </div>
+            <div id="productFormContainer" class="tab-content">
+                <h2>Создать новый товар</h2>
+                <form id="createProductForm">
+                    <div>
+                        <label for="productName">Название:</label>
+                        <input type="text" id="productName" name="name" required>
+                    </div>
+                    <div>
+                        <label for="productDescription">Описание:</label>
+                        <textarea id="productDescription" name="description" required></textarea>
+                    </div>
+                    <div>
+                        <label for="productBarcode">Штрихкод:</label>
+                        <input type="text" id="productBarcode" name="barcode" required>
+                    </div>
+                    <div>
+                        <label for="productBrand">ID Бренда:</label>
+                        <input type="number" id="productBrand" name="brandId" required>
+                    </div>
+                    <div>
+                        <label for="productPrice">Цена:</label>
+                        <input type="number" id="productPrice" name="price" required>
+                    </div>
+                    <div>
+                        <label for="productModels">Модели (JSON):</label>
+                        <textarea id="productModels" name="models" placeholder='{"model1": 0, "model2": 0}'></textarea>
+                    </div>
+                    <button type="submit">Создать</button>
+                </form>
+            </div>
+            <div id="brandFormContainer" class="tab-content hidden">
+                <h2>Создать новый бренд</h2>
+                <form id="createBrandForm">
+                    <div>
+                        <label for="brandName">Название бренда:</label>
+                        <input type="text" id="brandName" name="name" required>
+                    </div>
+                    <div>
+                        <label for="brandDescription">Описание бренда:</label>
+                        <textarea id="brandDescription" name="description"></textarea required>
+                    </div>
+                    <div>
+                        <label for="brandExternalLogoID">ID логотипа:</label>
+                        <input id="brandExternalLogoID" name="logoID"></textarea required>
+                    </div>
+                    <button type="submit">Создать</button>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -77,6 +104,7 @@
 
                 <button type="submit">Применить</button>
             </form>
+            <button id="addToCartButton" class="disabled" disabled>Добавить в корзину</button>
         </div>
         <div id="productModal" class="modal">
             <div class="modal-content">
@@ -97,9 +125,32 @@
         </div>
     </div>
     
+    <!-- ПОКУПКА -->
+    <div id="purchaseModal" class="modal" style="display:none;">
+        <h2>Оформление покупки</h2>
+        <div id="productList"></div> <!-- Список товаров и селектов -->
+        <h3>Адрес доставки</h3>
+        <div>
+            <label>Страна:</label><input type="text" id="countryCode">
+            <label>Область:</label><input type="text" id="state">
+            <label>Город:</label><input type="text" id="city">
+            <label>Улица:</label><input type="text" id="street">
+            <label>Дом:</label><input type="text" id="building">
+            <label>Квартира:</label><input type="text" id="apartment">
+            <label>Почтовый индекс:</label><input type="text" id="zipCode">
+        </div>
+        <div>
+            <label>Комментарий:</label><textarea id="comment"></textarea>
+        </div>
+        <button id="submitPurchase">Оформить покупку</button>
+        <button id="closeModal">Закрыть</button>
+    </div>
+    <!-- ПОКУПКА -->
+    
     <div id="about"></div>
     <script type="application/javascript" src="/main.js"></script>
     <script type="application/javascript" src="/makeproduct.js"></script>
+    <script type="application/javascript" src="/order.js"></script>
     <!--script type="application/javascript" src="/index.js"></script-->
 </body>
 </html>

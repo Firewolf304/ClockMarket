@@ -200,3 +200,22 @@ body {
     cursor: pointer;
     z-index: 1000;
 }
+
+#addToCartButton {
+    width: 100%;
+    padding: 10px;
+    background-color: #0073e6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#addToCartButton:hover:not(.disabled) {
+    background-color: #005bb5;
+}
+
+#addToCartButton.disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
