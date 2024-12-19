@@ -17,7 +17,7 @@
 #purchaseModal input, #purchaseModal textarea {
     display: block;
     margin-bottom: 10px;
-    width: 100%;
+    width: 95%;
     padding: 8px;
     border-radius: 5px;
 }
@@ -38,7 +38,7 @@
 
 #productList {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 20px;
     margin-bottom: 20px;
 }
@@ -47,10 +47,12 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    width: 45%; /* Adjust as needed */
+    width: 70%;
     background-color: #f9f9f9;
     padding: 10px;
     border-radius: 8px;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
 }
 
 .product-item h3 {

@@ -6,7 +6,7 @@ window.addEventListener("DOMContentLoaded", ()=> {
                 <div>
                     <span class="user-name" id="user-name"></span>
                     <span class="user-role" id="user-role"></span>
-                    <button class="nav-button button" @click="orders">Корзина</button>
+                    <button class="nav-button button" @click="orders">Заказы</button>
                     <button class="nav-button button" @click="profile">Профиль</button>
                     <button class="nav-button" id="auth-button" @click="authClick">Авторизация</button>
                     <button class="nav-button hidden" id="logout-button" @click="logout">Выход</button>

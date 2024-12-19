@@ -182,10 +182,10 @@ window.addEventListener("load", ()=> {
     });
     $("#submitPurchase").on("click", function() {
         const selectedProducts = [];
-        $(".product-select").each(function() {
+        $(".product-item").each(function() {
             const productId = $(this).data("product-id");
-            const modelId = $(this).val();
-            const quantity = $(this).data("quantity");
+            const modelId = $(this).children("select.product-select").val();
+            const quantity = $(this).children("input.product-quantity").val();
             if (modelId) {
                 selectedProducts.push({
                     modelID: modelId,
@@ -209,9 +209,12 @@ window.addEventListener("load", ()=> {
         };
 
         $.ajax({
-            url: "/OrderContoller",
+            url: "/OrderControler",
             method: "POST",
             contentType: "application/json",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             data: JSON.stringify(data),
             success: function(response) {
                 alert("Заказ оформлен успешно!");
