@@ -39,7 +39,7 @@ window.addEventListener("load", ()=> {
                 const $orderList = $("#orderList");
                 $orderList.empty();
                 response.forEach(order => {
-                    const $orderItem = $(`
+                    var $orderItem = $(`
                         <div class="order-item">
                             <div class="order-header">
                                 <span>Заказ #${order.id} — ${new Date(order.createdAt).toLocaleString()}</span>
@@ -50,6 +50,7 @@ window.addEventListener("load", ()=> {
                     const $itemsContainer = $("<div>", { class: "order-items" });
                     if (order.items.length === 1) {
                         const item = order.items[0];
+                        $orderItem.closest(".order-item").find(".order-header").append("<span>Показать товары</span>")
                         $itemsContainer.append(`
                             <div class="item">
                                 <span>${item.model.product.name} (${item.model.model})</span>

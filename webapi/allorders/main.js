@@ -16,19 +16,19 @@ var productStates = {
 }
 var getStates = (state) => {
     switch(state) {
-        case 0 : {
+        case '0' : {
             return "Pending";
         }break;
-        case 1 : {
+        case '1' : {
             return "Processing";
         }break;
-        case 2 : {
+        case '2' : {
             return "Shipped";
         }break;
-        case 3 : {
+        case '3' : {
             return "Delivered";
         }break;
-        case 4 : {
+        case '4' : {
             return "Cancelled";
         }break;
         
@@ -36,7 +36,7 @@ var getStates = (state) => {
 };
 var getIndexState = (state) => {
     const keys = Object.keys(productStates);
-    const index = keys.indexOf(statusName);
+    const index = keys.indexOf(state);
     return index !== -1 ? productStates[keys[index]] : null;
 };
 window.addEventListener("load", ()=> {
@@ -58,7 +58,7 @@ window.addEventListener("load", ()=> {
         $statusSelect.val(getIndexState(order.status));
         $statusSelect.on("change", function () {
             const selectedValue = $(this).val();
-            $orderItem.find(".order-header").find(".order-status").text(getStates(selectedValue));
+            //$orderItem.find(".order-header").find(".order-status").text(getIndexState(selectedValue));
         });
         const $itemsContainer = $("<div>", { class: "order-items" });
         if (order.items.length === 1) {
@@ -92,8 +92,8 @@ window.addEventListener("load", ()=> {
         const $orderList = $("#orderList"); 
 
         $orderItem.find(".update-order").on("click", function () {
-            const trackingNumber = $orderItem.find(".tracking-number").val();
-            const status = $statusSelect.val();
+            const trackingNumber = $orderItem.find(".tracking-number").val() || "";
+            const status = $statusSelect.val()  || "0";
             const orderId = order.id;
 
             $.ajax({
