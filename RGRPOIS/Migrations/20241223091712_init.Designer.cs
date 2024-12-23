@@ -13,7 +13,7 @@ using RGRPOIS.Helpers;
 namespace RGRPOIS.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20241215141043_init")]
+    [Migration("20241223091712_init")]
     partial class init
     {
         /// <inheritdoc />

@@ -21,12 +21,10 @@ window.addEventListener("load", ()=> {
                     console.log("success login");
                     $('#logout-button').removeClass('hidden')
                     $('#auth-button').addClass('hidden')
-
-                    $.cookie("firstname", data["firstname"]);
-                    $.cookie("lastname", data["lastname"]);
-                    $.cookie("username", data["username"]);
-                    $.cookie("id", data["id"]);
-                    $.cookie("role", data["role"]);
+                    let elements = ["firstname", "lastname", "username", "id", "role"];
+                    elements.forEach(element => {
+                        $.cookie(element, data[element]);
+                    });
                     return;
                 } 
                 window.location.href = "/login";

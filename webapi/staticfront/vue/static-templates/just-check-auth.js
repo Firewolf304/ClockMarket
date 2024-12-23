@@ -18,12 +18,11 @@ window.addEventListener("load", ()=> {
                     console.log("success login");
                     $('#logout-button').removeClass('hidden')
                     $('#auth-button').addClass('hidden')
-
-                    $.cookie("firstname", data["firstname"]);
-                    $.cookie("lastname", data["lastname"]);
-                    $.cookie("username", data["username"]);
-                    $.cookie("id", data["id"]);
-                    $.cookie("role", data["role"]);
+                    let elements = ["firstname", "lastname", "username", "id", "role"];
+                    var date = new Date(Date.now() + 86400e3);
+                    elements.forEach(element => {
+                        $.cookie(element, data[element], { path: '/',  expires: date });
+                    });
                     $(".user-name").text(`${data["firstname"]} ${data["lastname"]}`)
                     $(".user-role").text(`${data["role"]}`)
                 } else {
