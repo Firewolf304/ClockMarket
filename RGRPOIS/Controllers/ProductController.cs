@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RGRPOIS.Helpers.Models;
 using RGRPOIS.Models.DTO;
+using static RGRPOIS.Helpers.Controllers.OrderControler;
 
 namespace RGRPOIS.Helpers.Controllers;
 
@@ -31,7 +32,8 @@ public class ProductController : Controller
             Description = req.Description,
             BrandId = req.BrandId,
             Price = req.Price,
-            Barcode = req.Barcode
+            Barcode = req.Barcode,
+            ImagesURLs = req.ImageURLS
         };
         
         product.Models = req.Models.Select(
@@ -156,6 +158,47 @@ public class ProductController : Controller
             }
             )
             .First(c => c.Id == id);
+    }
+
+    [HttpPatch("{id}", Name = "PatchProduct")]
+    //[Authorization.Authorize(Role.Salesman)]
+    public void Patch(int id, [FromBody] CreateProductRequest req)
+    {
+        var prod = _dbContext.Products.Find(id);
+        if (prod == null)
+        {
+            throw new FileNotFoundException("Product not found");
+        }
+
+        prod.Name = req.Name;
+        prod.Price = req.Price;
+        prod.Barcode = req.Barcode;
+        prod.Description = req.Description;
+        prod.BrandId = req.BrandId;
+
+        if (prod.Models != null)
+        {
+            // Удаляем старые модели
+            _dbContext.Models.RemoveRange(prod.Models);
+
+            // Добавляем новые модели
+            prod.Models = req.Models.Select(sel => new ModelEntity
+            {
+                ProductId = prod.Id,
+                Model = sel.Key,
+                Quantity = sel.Value
+            }).ToList();
+        }
+        else
+        {
+            prod.Models = req.Models.Select(sel => new ModelEntity
+            {
+                ProductId = prod.Id,
+                Model = sel.Key,
+                Quantity = sel.Value
+            }).ToList();
+        }
+        _dbContext.SaveChanges();
     }
 
     [Authorization.Authorize(Role.Salesman)]

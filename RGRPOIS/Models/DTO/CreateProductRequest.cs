@@ -11,6 +11,8 @@ public class CreateProductRequest
     public int BrandId { get; set; }
     public int Price { get; set; }
 
+    public List<string> ImageURLS { get; set; }
+
     // model to quantity mapping
     [AtLeastOneElementDict]
     public Dictionary<string, int> Models { get; set; } = null!;

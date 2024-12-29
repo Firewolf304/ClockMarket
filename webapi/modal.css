@@ -54,3 +54,31 @@
     cursor: pointer;
     z-index: 1000;
 }
+
+.links-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.link-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.link-item input {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.link-item button {
+    background: #ff5c5c;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+}

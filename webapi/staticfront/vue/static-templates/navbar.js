@@ -7,7 +7,7 @@ window.addEventListener("DOMContentLoaded", ()=> {
         },
         template: `
             <div class="navbar">
-                <h1 @click="mainpage" id="mainpage">DNAAS</h1>
+                <h1 @click="mainpage" id="mainpage">Сетевое оборудование</h1>
                 <div>
                     <span class="user-name" id="user-name">{{ firstname || "Гость" }}</span>
                     <span class="user-role" id="user-role">{{ role || "Customer" }}</span>

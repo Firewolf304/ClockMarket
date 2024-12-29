@@ -43,6 +43,13 @@
                         <input type="text" id="productBarcode" name="barcode" required>
                     </div>
                     <div>
+                        <label>Ссылки:</label>
+                        <div id="linksContainer" class="links-container">
+                            <!-- links -->
+                        </div>
+                        <button type="button" id="addLinkButton">Добавить ссылку</button>
+                    </div>
+                    <div>
                         <label for="productBrand">ID Бренда:</label>
                         <input type="number" id="productBrand" name="brandId" required>
                     </div>
@@ -129,6 +136,7 @@
     <div id="purchaseModal" class="modal" style="display:none;">
         <h2>Оформление покупки</h2>
         <div id="productList"></div> <!-- Список товаров и селектов -->
+        <h3 id="product-fullprice">Итого: <span></span></h3>
         <h3>Адрес доставки</h3>
         <div>
             <label>Страна:</label><input type="text" id="countryCode">
