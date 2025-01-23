@@ -10,11 +10,11 @@ using RGRPOIS.Helpers;
 
 #nullable disable
 
-namespace RGRPOIS.Migrations
+namespace Clocks.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20241223091712_init")]
-    partial class init
+    [Migration("20250123170318_init1")]
+    partial class init1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -146,18 +146,21 @@ namespace RGRPOIS.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Barcode")
+                    b.Property<int>("BrandId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Country")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
-
-                    b.Property<int>("BrandId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("integer");
 
                     b.PrimitiveCollection<List<string>>("ImagesURLs")
                         .IsRequired()
@@ -169,6 +172,9 @@ namespace RGRPOIS.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.Property<int>("Price")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Waterproof")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");

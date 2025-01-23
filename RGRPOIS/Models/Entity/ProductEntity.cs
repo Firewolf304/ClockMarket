@@ -17,6 +17,9 @@ public class ProductEntity
     )]
     public string Name { get; set; } = null!;
 
+    [MaxLength(50)]
+    public string Country { get; set; } = null!;
+
     /// <summary>
     ///   Price in kopecks
     /// </summary>
@@ -24,7 +27,13 @@ public class ProductEntity
     [Range(0, int.MaxValue)]
     public int Price { get; set; }
 
-    [Required][MaxLength(50)] public string Barcode { get; set; } = null!;
+    public Sex Gender { get; set; }
+
+    
+
+    [Range(0, int.MaxValue)]
+    public int Waterproof { get; set; } = 0;
+
 
     [Required]
     [MaxLength(500)]

@@ -32,7 +32,9 @@ public class ProductController : Controller
             Description = req.Description,
             BrandId = req.BrandId,
             Price = req.Price,
-            Barcode = req.Barcode,
+            Gender = req.Gender,
+            Country = req.Country,
+            Waterproof = req.Waterproof,
             ImagesURLs = req.ImageURLS
         };
         
@@ -81,7 +83,9 @@ public class ProductController : Controller
                 Description = sel.Description,
                 BrandId = sel.BrandId,
                 Price = sel.Price,
-                Barcode = sel.Barcode,
+                Gender = sel.Gender,
+                Country = sel.Country,
+                Waterproof = sel.Waterproof,
                 ImagesURLs = sel.ImagesURLs,
                 Brand = new BrandEntity
                 {
@@ -106,7 +110,10 @@ public class ProductController : Controller
                 (filters.Name == null || c.Name.Contains(filters.Name)) &&
                 (filters.BrandId == null || c.BrandId == filters.BrandId) &&
                 (filters.MinPrice == null || c.Price >= filters.MinPrice) &&
-                (filters.MaxPrice == null || c.Price <= filters.MaxPrice)
+                (filters.MaxPrice == null || c.Price <= filters.MaxPrice) &&
+                (filters.Gender == null || c.Gender == filters.Gender) &&
+                (filters.Country == null || c.Country.ToLower().Contains(filters.Country.ToLower())) &&
+                (filters.Waterproof == null || c.Waterproof <= filters.Waterproof)
             );
 
         //var res = select.Skip(filters.Count * filters.Offset).Take(filters.Count).ToList();
@@ -135,7 +142,9 @@ public class ProductController : Controller
                 Description = c.Description,
                 BrandId = c.BrandId,
                 Price = c.Price,
-                Barcode = c.Barcode,
+                Gender = c.Gender,
+                Country = c.Country,
+                Waterproof = c.Waterproof,
                 ImagesURLs = c.ImagesURLs,
 
                 Brand = new BrandEntity
@@ -172,7 +181,6 @@ public class ProductController : Controller
 
         prod.Name = req.Name;
         prod.Price = req.Price;
-        prod.Barcode = req.Barcode;
         prod.Description = req.Description;
         prod.BrandId = req.BrandId;
 

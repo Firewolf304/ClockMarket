@@ -77,6 +77,9 @@ window.addEventListener("load", ()=> {
         if (filter.BrandId) queryParams.BrandId = filter.BrandId;
         if (filter.MinPrice) queryParams.MinPrice = filter.MinPrice;
         if (filter.MaxPrice) queryParams.MaxPrice = filter.MaxPrice;
+        if (filter.Gender) queryParams.Gender = filter.Gender;
+        queryParams.Country = filter.Country;
+        if (filter.Waterproof) queryParams.Waterproof = filter.Waterproof;
         queryParams.Count = filter.Count;
         queryParams.Offset = filter.Offset;
         $.get("/Product", queryParams, function (response) {
@@ -148,9 +151,9 @@ window.addEventListener("load", ()=> {
             });
             selectedProducts.clear();
             
-            $("#filterPage").attr("max", response.totalPages)
-            if(response.totalItems < ItemMaxCount) $("#filterCount").attr("max", response.totalItems)
-            else $("#filterCount").attr("max", ItemMaxCount)
+            //$("#filterPage").attr("max", response.totalPages)
+            //if(response.totalItems < ItemMaxCount) $("#filterCount").attr("max", response.totalItems)
+            //else $("#filterCount").attr("max", ItemMaxCount)
             
             // update
             updateModal();
@@ -175,6 +178,10 @@ window.addEventListener("load", ()=> {
         filter.MaxPrice = $("#filterMaxPrice").val() || 999999;
         filter.Count = $("#filterCount").val() || $.cookie("filterCount");
         filter.Offset = $("#filterPage").val() || 0; 
+        filter.Gender = $("#filterSex").val() || null;
+        filter.Country = $("#filterCountry").val() || "";
+        filter.Waterproof = $("#filterWaterproof").val() || 999999;
+
         if($("#filterCount").val()) {
             $.cookie("filterCount", $("#filterCount").val(), {expires : 9999999});
         }

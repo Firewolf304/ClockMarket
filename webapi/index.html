@@ -39,8 +39,19 @@
                         <textarea id="productDescription" name="description" required></textarea>
                     </div>
                     <div>
-                        <label for="productBarcode">Штрихкод:</label>
-                        <input type="text" id="productBarcode" name="barcode" required>
+                        <label for="productSex">Пол:</label>
+                        <select id="productSex" name="sex">
+                            <option value="Female">Женский</option>
+                            <option value="Male">Мужской</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="productCountry">Страна:</label>
+                        <input type="text" id="productCountry" name="country" required>
+                    </div>
+                    <div>
+                        <label for="productWaterproof">Погружаемость:</label>
+                        <input type="number" id="productWaterproof" name="waterproof" required>
                     </div>
                     <div>
                         <label>Ссылки:</label>
@@ -96,6 +107,19 @@
                 <select id="filterBrand" name="BrandId">
                     <option value="">Все бренды</option>
                 </select>
+
+                <label for="filterSex">Пол:</label>
+                <select id="filterSex" name="Gender">
+                    <option value="">Все</option>
+                    <option value="Female">Женский</option>
+                    <option value="Male">Мужской</option>
+                </select>
+
+                <label for="filterCountry">Страна:</label>
+                <input type="text" id="filterCountry" name="Country">
+
+                <label for="filterWaterproof">Погружаемость до:</label>
+                <input type="number" id="filterWaterproof" name="Waterproof" placeholder="9999999" min="0">
 
                 <label for="filterMinPrice">Мин. цена:</label>
                 <input type="number" id="filterMinPrice" name="MinPrice" placeholder="0">

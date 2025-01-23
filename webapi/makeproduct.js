@@ -63,6 +63,9 @@ window.addEventListener("load", ()=> {
                 barcode: $("#productBarcode").val(),
                 brandId: parseInt($("#productBrand").val()),
                 price: parseFloat($("#productPrice").val()),
+                gender: $("#productSex").val(),
+                country: $("#productCountry").val(),
+                waterproof: parseInt($("#productWaterproof").val()),
                 imageurls: links,
                 models: JSON.parse($("#productModels").val() || "{}")
             };
