@@ -11,7 +11,7 @@ window.addEventListener("load", ()=> {
             $createModal.fadeIn();
         });
 
-        $("#closeModal").on("click", function () {
+        $("button#closeModal.modal-close").on("click", function () {
             $createModal.fadeOut();
         });
 

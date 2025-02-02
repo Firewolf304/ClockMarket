@@ -1,55 +1,53 @@
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f5f0e1;
     margin: 0;
     padding: 0;
-    background-color: #f9fbfd;
-    color: #333; /* Тёмный текст для контраста */
+    color: #4a4a4a;
 }
 
 .navbar {
-    background-color: #ffffff; /* Белый фон навигации */
+    background-color: #2c3e50;
     padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Лёгкая тень для объёма */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 10px; /* Закруглённые края */
+    border-radius: 10px;
 }
 
 #mainpage {
-    color: #004080; /* Темно-синий текст */
+    color: #d4af37;
     margin: 0;
     cursor: pointer;
-    font-size: 2rem; /* Увеличенный размер шрифта */
+    font-size: 2rem;
     font-weight: 600;
 }
 
 .nav-button {
-    background-color: #0073e6; /* Синий цвет кнопок */
-    color: #ffffff; /* Белый текст */
+    background-color: #b76e79;
+    color: #ffffff;
     border: none;
     padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 25px; /* Полукруглые кнопки */
+    border-radius: 25px;
     cursor: pointer;
     margin-left: 10px;
     font-size: 1rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Тень для кнопок */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .nav-button:hover {
-    background-color: #005bb5; /* Темнее при наведении */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Усиленная тень при наведении */
+    background-color: #8b5a65;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 #auth-button, #logout-button {
-    background-color: #ff8533; /* Более мягкий оранжевый */
+    background-color: #a67c52;
 }
 
 #auth-button:hover, #logout-button:hover {
-    background-color: #e67300; /* Темнее при наведении */
+    background-color: #8b5a2b;
 }
 
 .hidden {
@@ -59,9 +57,9 @@ body {
 .center-content {
     padding: 30px;
     text-align: center;
-    border-radius: 15px; /* Закруглённые края контейнера */
-    background-color: #ffffff; /* Белый фон для контента */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень для объёма */
+    border-radius: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     max-width: 800px;
     margin: 20px auto;
 }
@@ -69,23 +67,145 @@ body {
 .user-info {
     display: flex;
     align-items: center;
-    gap: 10px; /* Отступы между именем и ролью */
-    margin-right: 20px; /* Отступ справа от кнопок */
+    gap: 10px;
+    margin-right: 20px;
     font-size: 1rem;
-    color: #333; /* Тёмный текст */
+    color: #4a4a4a;
 }
 
 .user-name {
     font-weight: bold;
-    color: #004080; /* Темно-синий */
+    color: #d4af37;
 }
 
 .user-role {
-    background-color: #f0f4f8; /* Светло-серый фон */
-    color: #0073e6; /* Синий текст */
+    background-color: #ede0c8;
+    color: #8b5a2b;
     padding: 5px 10px;
     font-size: 0.9rem;
-    border-radius: 15px; /* Закруглённая окантовка */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
+    border-radius: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     font-weight: 600;
+}
+
+#electronics-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+    flex-direction: row-reverse;
+}
+
+.filter-section {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 250px;
+}
+
+.filter-section h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #8b5a2b;
+}
+
+.filter-section label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #6d4c41;
+}
+
+.filter-section input,
+.filter-section select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #c0a080;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.filter-section button {
+    width: 100%;
+    padding: 10px;
+    background-color: #8b5a2b;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.filter-section button:hover {
+    background-color: #6d4c41;
+}
+
+.products-section {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+.products-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.product-card {
+    width: 250px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    border: 2px solid #8b5a2b;
+}
+
+.product-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    background-color: #d4af37;
+}
+
+.product-card h4 {
+    margin: 10px 0;
+    color: #6d4c41;
+}
+
+.product-card p {
+    font-size: 14px;
+    color: #4a4a4a;
+    margin-bottom: 10px;
+}
+
+.product-card .delete button {
+    padding: 10px;
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-card .delete button:hover {
+    background-color: #b71c1c;
+}
+
+.product-card button {
+    padding: 10px;
+    background-color: #a67c52;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-card button:hover {
+    background-color: #8b5a2b;
 }

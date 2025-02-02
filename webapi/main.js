@@ -1,6 +1,6 @@
 var token = "";
 window.adminStatus = false;
-var selectedProducts = new Set();
+
 function deleteItem(button) {
     const productId = $(button).data('id'); // Получаем ID продукта
     
@@ -83,90 +83,73 @@ window.addEventListener("load", ()=> {
         queryParams.Count = filter.Count;
         queryParams.Offset = filter.Offset;
         $.get("/Product", queryParams, function (response) {
-            const productList = $(document.querySelector("#productsList"));
+            const productList = $("#productsList");
             const pagination = $("#pagination");
-
+            
             productList.empty();
-            if(response.totalPages < 0) return;
-            if($("#filterPage").val() > response.totalPages) {
+            if (response.totalPages < 0) return;
+            if ($("#filterPage").val() > response.totalPages) {
                 $("#filterPage").val(0);
                 filter.Offset = $("#filterPage").val();
                 fetchProducts();
             }
+            
             products = response["products"];
-            function  deleteItem (element) {
-                console.log($(element))
-                //$.delete(`/Product/${}`)
-            };
-
-            // ============= checkbox logic
-            selectedProducts = new Set();
-
-            function updateCartButtonState() {
-                if (selectedProducts.size > 0) {
-                    $("#addToCartButton").removeClass("disabled").prop("disabled", false);
-                } else {
-                    $("#addToCartButton").addClass("disabled").prop("disabled", true);
-                }
+        
+            function getSelectedProducts() {
+                return JSON.parse(localStorage.getItem("selectedProducts") || "[]");
             }
-
-            $("body").on("change", "input.product-checkbox", function () {
-                const productId = $(this).attr("data-id");
-                if (this.checked) {
-                    selectedProducts.add(productId);
+            
+            function saveSelectedProducts(selected) {
+                localStorage.setItem("selectedProducts", JSON.stringify(selected));
+            }
+            
+            function toggleProductSelection(productId, button) {
+                let selectedProducts = getSelectedProducts();
+                const index = selectedProducts.indexOf(productId);
+                if (index === -1) {
+                    selectedProducts.push(productId);
+                    $(button).text("Добавлено").addClass("added");
                 } else {
-                    selectedProducts.delete(productId);
+                    selectedProducts.splice(index, 1);
+                    $(button).text("Добавить").removeClass("added");
                 }
-                updateCartButtonState();
-            });
-            $("#addToCartButton").off();
-            $("#addToCartButton").on("click", function () {
-                if (selectedProducts.size > 0) {
-                    //alert(`Добавлено в корзину: ${Array.from(selectedProducts).join(", ")}`);
-                    
-                    loadProducts();
-                    $("#purchaseModal").fadeIn();
-
-                    /*selectedProducts.clear();
-                    $("input.product-checkbox").prop("checked", false);
-                    updateCartButtonState();*/
-                }
-            });
-            // ============= checkbox logic
-
+                saveSelectedProducts(selectedProducts);
+            }
+            
             products.forEach(product => {
-                const productItem = $(`
-                    <div class="product-card" data-id="${product.id}">
+                const productId = product.id.toString();
+                const isSelected = getSelectedProducts().includes(productId);
+                const productItem = $(
+                    `<div class="product-card" data-id="${product.id}">
                         <img src="${product.imagesURLs[0] || undefined}" alt="${product.name}">
                         <h3>${product.name}</h3>
                         <p>Бренд: ${product.brand.name}</p>
                         <p>Цена: ${product.price}</p>
-                        <input type="checkbox" class="product-checkbox" data-id="${product.id}" />
-                        ` +
-                        ((window.adminStatus) ? `<div class="delete"><button data-id="${product.id}" onclick="deleteItem(this)">Удалить</button></div>` : "")
-                        +  `
-                    </div>
-                `);
+                        <button class="product-btn ${isSelected ? 'added' : ''}" data-id="${product.id}">
+                            ${isSelected ? 'Добавлено' : 'Добавить'}
+                        </button>
+                        ${window.adminStatus ? `<div class="delete"><button data-id="${product.id}" class="delete-btn">Удалить</button></div>` : ""}
+                    </div>`
+                );
+                
                 productList.append(productItem);
             });
-            selectedProducts.clear();
             
-            //$("#filterPage").attr("max", response.totalPages)
-            //if(response.totalItems < ItemMaxCount) $("#filterCount").attr("max", response.totalItems)
-            //else $("#filterCount").attr("max", ItemMaxCount)
-            
-            // update
+            $("body").on("click", ".product-btn", function () {
+                const productId = $(this).attr("data-id");
+                toggleProductSelection(productId, this);
+            });
+        
+            $("body").on("click", ".delete-btn", function () {
+                //const productId = $(this).attr("data-id");
+                //console.log("Удалить продукт:", productId);
+                deleteItem(this)
+            });
+        
             updateModal();
-            /*pagination.empty();
-            for (let i = 1; i <= response.remainingPages + 1; i++) {
-                const pageButton = $(`<button>${i}</button>`);
-                pageButton.on("click", function () {
-                    filter.Offset = i;
-                    fetchProducts();
-                });
-                pagination.append(pageButton);
-            }*/
         });
+        
     }
     
     // filter form
@@ -187,119 +170,9 @@ window.addEventListener("load", ()=> {
         }
         fetchProducts();
     });
-    $("#submitPurchase").on("click", function() {
-        const selectedProducts = [];
-        $(".product-item").each(function() {
-            const productId = $(this).data("product-id");
-            const modelId = $(this).children("select.product-select").val();
-            const quantity = $(this).children("input.product-quantity").val();
-            if (modelId) {
-                selectedProducts.push({
-                    modelID: modelId,
-                    quantity: quantity
-                });
-            }
-        });
-
-        const data = {
-            items: selectedProducts,
-            address: {
-                countryCode: $("#countryCode").val(),
-                state: $("#state").val(),
-                city: $("#city").val(),
-                street: $("#street").val(),
-                building: $("#building").val(),
-                apartment: $("#apartment").val(),
-                zipCode: $("#zipCode").val()
-            },
-            comment: $("#comment").val()
-        };
-
-        $.ajax({
-            url: "/OrderControler",
-            method: "POST",
-            contentType: "application/json",
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-            data: JSON.stringify(data),
-            success: function(response) {
-                alert("Заказ оформлен успешно!");
-                $("#purchaseModal").hide();
-            },
-            error: function() {
-                alert("Ошибка при оформлении заказа");
-            }
-        });
-    });
-    var generate = (productData) => {
-        const productId = productData.id;
-        const productModels = productData.models || [];
-        const price = productData.price
-
-        let modelsOptions = productModels.map(model => {
-            return `<option value="${model.id}">${model.model}</option>`;
-        }).join("");
-
-        var ele =  $(`
-            <div class="product-item" data-product-id="${productId}">
-                <h3>${productData.name}</h3>
-                <label>Модель:</label>
-                <select class="product-select" data-product-id="${productId}">
-                    ${modelsOptions}
-                </select>
-                <label>Количество:</label>
-                <input type="number" value="1" class="product-quantity" data-quantity="1" min="1">
-                <label>Цена:</label>
-                <label class="product-price"></label>
-            </div>
-        `);
-        var updatePrice = () => {
-            const $element = $(ele);
-            const $quantityInput = $element.find("input")
-            const quantity = parseInt($quantityInput.val(), 10) || 0;
-            $(ele).find(".product-price").text((price * quantity).toFixed(2));
-            $("h3#product-fullprice span").text("");
-            var all1 = 0;
-            var summ = $(".product-price");
-            if(summ.length > 0)
-            {
-                summ.each((a) => { 
-                    all1 += parseFloat($($("label.product-price")[a]).text())
-                })
-                $("h3#product-fullprice span").text((all1).toFixed(2));
-            }
-            
-        }
-        ele.children(".product-quantity").on("change", updatePrice);
-        updatePrice();
-        return ele;
-    };
-    function loadProducts() {
-        const selectedProductIds = Array.from(selectedProducts);
-        $("#productList").empty()
-        $("h3#product-fullprice span").text("");
-        var all = 0;
-        const promises = selectedProductIds.map(id => {
-            return $.ajax({
-                url: `/Product/${id}`,
-                method: "GET",
-                success: function(productData) {
-                    // add products
-                    const productListHtml = generate(productData);
-                    all += productData.price;
-                    $("#productList").append(productListHtml);
-                    $("h3#product-fullprice span").text((all).toFixed(2));
-                }
-            });
-        });
-    }
     
-    $("#purchaseModal #closeModal").on("click", function() {
-        $("#purchaseModal").fadeOut();
-    });
     
-
+    
     // init
     fetchBrands();
     fetchProducts();

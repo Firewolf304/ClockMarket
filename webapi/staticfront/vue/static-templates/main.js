@@ -33,6 +33,16 @@ window.addEventListener("DOMContentLoaded", ()=> {
                         name: 'main-style',
                         src: mainstyle.href
                     });
+                })
+                .then(() => {
+                    const mainstyle = document.createElement('link');
+                    mainstyle.rel = 'stylesheet';
+                    mainstyle.href = '/staticfront/css/order-style.css';
+                    document.head.appendChild(mainstyle);
+                    this.resources.push({
+                        name: 'order-style',
+                        src: mainstyle.href
+                    });
                 });
         }
     };

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Магазин сетевого оборудования</title>
+    <title>Интернет магазин часов</title>
     <link href="/style.css" rel="stylesheet">    
     <link href="/modal.css" rel="stylesheet">  
-    <link href="/order-style.css" rel="stylesheet">  
+    <!--link href="/order-style.css" rel="stylesheet"-->  
     <!--link href="/slider.css" rel="stylesheet"-->  
     <script type="application/javascript" src="/staticfront/vue/vue.js"></script>
     <script type="application/javascript" src="/staticfront/vue/static-templates/main.js"></script>
@@ -135,7 +135,7 @@
 
                 <button type="submit">Применить</button>
             </form>
-            <button id="addToCartButton" class="disabled" disabled>Добавить в корзину</button>
+            <!--button id="addToCartButton" class="disabled" disabled>Добавить в корзину</button-->
         </div>
         <div id="productModal" class="modal">
             <div class="modal-content">
@@ -155,29 +155,6 @@
             </div>
         </div>
     </div>
-    
-    <!-- ПОКУПКА -->
-    <div id="purchaseModal" class="modal" style="display:none;">
-        <h2>Оформление покупки</h2>
-        <div id="productList"></div> <!-- Список товаров и селектов -->
-        <h3 id="product-fullprice">Итого: <span></span></h3>
-        <h3>Адрес доставки</h3>
-        <div>
-            <label>Страна:</label><input type="text" id="countryCode">
-            <label>Область:</label><input type="text" id="state">
-            <label>Город:</label><input type="text" id="city">
-            <label>Улица:</label><input type="text" id="street">
-            <label>Дом:</label><input type="text" id="building">
-            <label>Квартира:</label><input type="text" id="apartment">
-            <label>Почтовый индекс:</label><input type="text" id="zipCode">
-        </div>
-        <div>
-            <label>Комментарий:</label><textarea id="comment"></textarea>
-        </div>
-        <button id="submitPurchase">Оформить покупку</button>
-        <button id="closeModal">Закрыть</button>
-    </div>
-    <!-- ПОКУПКА -->
     
     <div id="about"></div>
     <script type="application/javascript" src="/main.js"></script>
